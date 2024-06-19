@@ -1,25 +1,25 @@
-npx create-react-app ecommerce-site
-cd ecommerce-site
+// npx create-react-app ecommerce-site
+// cd ecommerce-site
 
-npm install redux react-redux
-npm install @mui/material @emotion/react @emotion/styled
-npm install @mui/icons-material
+// npm install redux react-redux
+// npm install @mui/material @emotion/react @emotion/styled
+// npm install @mui/icons-material
 
-src/
-  actions/
-    cartActions.js
-  components/
-    Cart.js
-    Header.js
-    Product.js
-    ProductList.js
-  reducers/
-    cartReducer.js
-    rootReducer.js
-  store/
-    store.js
-  App.js
-  index.js
+// src/
+//   actions/
+//     cartActions.js
+//   components/
+//     Cart.js
+//     Header.js
+//     Product.js
+//     ProductList.js
+//   reducers/
+//     cartReducer.js
+//     rootReducer.js
+//   store/
+//     store.js
+//   App.js
+//   index.js
 
 
 import { createStore } from 'redux';

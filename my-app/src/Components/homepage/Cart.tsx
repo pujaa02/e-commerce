@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./cart.css";
 import { useDispatch, useSelector } from "react-redux";
 import { Grid } from "@mui/material";
@@ -7,13 +7,17 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { removeFromCart } from "./CartFuncationality";
-import { cartdata } from "../interfacefile";
+import { Data, cartdata } from "../interfacefile";
 
-
+interface State {
+    cart: Data[];
+    total: number;
+    totalItems: number;
+}
 
 const Cart: React.FC = () => {
     // const [cart, setCart] = useState([]);
-    const { cart } = useSelector((state) => state.cart);
+    const { cart } = useSelector((state: State) => state.cart);
     const dispatch = useDispatch();
     return (
         <Grid container sx={{ color: 'text.primary' }}>
@@ -32,7 +36,7 @@ const Cart: React.FC = () => {
                         </tr>
                         {cart.map((dataCart: cartdata, index: number) => (
                             <tr key={index}>
-                                <td className="flex_items">
+                                < td className="flex_items" >
                                     <img id="logo" src={require(`../homepage/mylogo.jpg`)} alt="" />
                                     <p>pi pizza oven</p>
                                 </td>
@@ -54,8 +58,8 @@ const Cart: React.FC = () => {
                         <p className="checkout_btn">Chekout</p>
                     </div>
                 </div>
-            </div>
-        </Grid>
+            </div >
+        </Grid >
 
     );
 };
