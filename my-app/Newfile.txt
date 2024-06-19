@@ -1,0 +1,32 @@
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './context/AuthContext';
+import Login from './components/Login';
+import Logout from './components/Logout';
+import Dashboard from './components/Dashboard'; // Assuming you have a Dashboard component
+
+interface ProtectedRouteProps {
+    component: React.ComponentType<any>;
+    path: string;
+}
+
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ component: Component }) => {
+    const { currentUser } = useAuth();
+    return currentUser ? <Component /> : <Navigate to="/login" />;
+};
+
+const App: React.FC = () => {
+    return (
+        <AuthProvider>
+            <Router>
+                <Routes>
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/dashboard" element={<ProtectedRoute component={Dashboard} />} />
+                    {/* Add other routes */}
+                </Routes>
+            </Router>
+        </AuthProvider>
+    );
+};
+
+export default App;
