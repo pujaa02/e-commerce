@@ -27,7 +27,7 @@ li a {
   color: #fff;
 }
 .right {
-  margin-top: -40px;
+  margin-top: -50px;
   display: flex;
   align-items: center;
   justify-content: end;
@@ -82,7 +82,7 @@ li a {
   font-weight: 500;
   color: rgb(114, 113, 113);
 }
-.spantag{
+.spantag {
   color: rgb(114, 113, 113);
 }
 .icon {
@@ -91,9 +91,7 @@ li a {
 .price {
   font-size: 20px;
 }
-.descri{
 
-}
 .overlay {
   background-color: rgb(238, 228, 228);
   border-radius: 5px;
@@ -116,8 +114,22 @@ li a {
 .rateicon {
   margin-top: -5px;
 }
-.icons_material{
+.icons_material {
   margin-top: -4px;
+}
+#miimg {
+  margin-top: 10px;
+  width: 65px;
+  height: 50px;
+  border-radius: 50%;
+}
+#relative_basket {
+  position: relative;
+}
+#relative_basket p {
+  position: absolute;
+  top: -13px;
+  left: 30px;
 }
 /* .overlay {
   background-color: rgb(238, 228, 228);

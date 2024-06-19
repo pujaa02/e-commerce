@@ -19,11 +19,13 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
     useEffect(() => {
         const user = getCurrentUser();
+        // console.log(user,"user");
         if (user) {
             setCurrentUser(user);
         }
     }, []);
-
+//  console.log(currentUser,"curuser");
+ 
     return (
         <AuthContext.Provider value={{ currentUser, setCurrentUser }}>
             {children}

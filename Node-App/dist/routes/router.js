@@ -38,6 +38,8 @@ route.post("/password/:user_id", userauthenticate_1.default.password);
 route.get("/checkuser/:email/:pass", userauthenticate_1.default.checkuser);
 route.get("/finduser/:email", userauthenticate_1.default.finduser);
 route.get("/user", passport_1.default.authenticate("jwt", { session: false }), userauthenticate_1.default.getuser);
-route.get("/getproductdata", fetchproductdata_1.default);
+route.get("/getproductdata", fetchproductdata_1.default.getproductData);
+route.get("/getcartdata", fetchproductdata_1.default.getcartdata);
+route.get("/deletecartitem/:user_id/:product_data_id", fetchproductdata_1.default.deletecartitem);
 exports.default = route;
 //# sourceMappingURL=router.js.map

@@ -23,5 +23,6 @@ export const logout = () => {
 };
 
 export const getCurrentUser = () => {
+  // console.log((localStorage.getItem("user")),"getcurrentuser");
   return JSON.parse(localStorage.getItem("user") || '{}');
 };
