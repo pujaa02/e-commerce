@@ -7,7 +7,6 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { removeFromCart } from "./CartFuncationality";
-import { Data, cartdata } from "../interfacefile";
 
 interface State {
     cart: Data[];
@@ -15,6 +14,21 @@ interface State {
     totalItems: number;
 }
 
+interface cartdata {
+    id: number;
+    user_id: number
+    product_data_id: number;
+    isDeleted: number;
+} interface Data {
+    product_data_id: number;
+    title: string;
+    price: number;
+    description: string;
+    category: string;
+    image: string;
+    rate: number;
+    count: number;
+}
 const Cart: React.FC = () => {
     // const [cart, setCart] = useState([]);
     const { cart } = useSelector((state: State) => state.cart);
