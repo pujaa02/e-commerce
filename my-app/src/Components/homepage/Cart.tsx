@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import "./cart.css";
+import { useDispatch, useSelector } from "react-redux";
 import { Grid } from "@mui/material";
 import Header from "./header";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import { removeFromCart } from "./CartFuncationality";
+import { cartdata } from "../interfacefile";
+
+
 
 const Cart: React.FC = () => {
+    // const [cart, setCart] = useState([]);
+    const { cart } = useSelector((state) => state.cart);
+    const dispatch = useDispatch();
     return (
         <Grid container sx={{ color: 'text.primary' }}>
             <div className="home_container">
@@ -22,18 +30,24 @@ const Cart: React.FC = () => {
                             <th>Quality</th>
                             <th>Total</th>
                         </tr>
-                        <tr>
-                            <td className="flex_items"> <img id="logo" src={require(`../homepage/mylogo.jpg`)} alt="" /> <p>pi pizza oven</p> </td>
-                            <td>$6.99</td>
-                            <td>
-                                <tr className="minitable">
-                                    <td className="minitable_td"><RemoveIcon /></td>
-                                    <td className="minitable_td" width={50}>4</td>
-                                    <td className="minitable_td"><AddIcon /></td>
-                                </tr>
-                            </td>
-                            <td>$6.99 <DeleteForeverIcon className="material_icon" /></td>
-                        </tr>
+                        {cart.map((dataCart: cartdata, index: number) => (
+                            <tr key={index}>
+                                <td className="flex_items">
+                                    <img id="logo" src={require(`../homepage/mylogo.jpg`)} alt="" />
+                                    <p>pi pizza oven</p>
+                                </td>
+                                <td>$6.99</td>
+                                <td>
+                                    <tr className="minitable">
+                                        <td className="minitable_td"><RemoveIcon /></td>
+                                        <td className="minitable_td" width={50}>4</td>
+                                        <td className="minitable_td"><AddIcon /></td>
+                                    </tr>
+                                </td>
+                                <td>$6.99 </td>
+                                <td onClick={() => dispatch(removeFromCart(dataCart.id))}><DeleteForeverIcon className="material_icon" /></td>
+                            </tr>
+                        ))}
                     </table>
                     <div className="subtotal_container">
                         <p>SubTotal : </p>
