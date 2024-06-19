@@ -28,22 +28,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = __importStar(require("express"));
 const route = express.Router();
-const form_1 = __importDefault(require("../controller/form"));
 const userauthenticate_1 = __importDefault(require("../controller/userauthenticate"));
-const fetchuser_1 = __importDefault(require("../controller/fetchuser"));
-const updateform_1 = __importDefault(require("../controller/updateform"));
-const bookhome_1 = __importDefault(require("../controller/bookhome"));
+const fetchproductdata_1 = __importDefault(require("../controller/fetchproductdata"));
+const passport_1 = __importDefault(require("passport"));
 route.post("/register", userauthenticate_1.default.register);
 route.get("/activatecheck/:user_id", userauthenticate_1.default.activatecheck);
 route.get("/deleteuser/:id", userauthenticate_1.default.deleteuser);
 route.post("/password/:user_id", userauthenticate_1.default.password);
 route.get("/checkuser/:email/:pass", userauthenticate_1.default.checkuser);
 route.get("/finduser/:email", userauthenticate_1.default.finduser);
-route.post("/submit", form_1.default.submit);
-route.get("/getallemp", fetchuser_1.default.getallemp);
-route.get("/findemp/:id", updateform_1.default.findemp);
-route.post("/updateemp/:id", updateform_1.default.updateemp);
-route.get("/deleteemp/:id", updateform_1.default.deletemp);
-route.get("/getdata/:user_id", bookhome_1.default.getdata);
+route.get("/user", passport_1.default.authenticate("jwt", { session: false }), userauthenticate_1.default.getuser);
+route.get("/getproductdata", fetchproductdata_1.default);
 exports.default = route;
 //# sourceMappingURL=router.js.map

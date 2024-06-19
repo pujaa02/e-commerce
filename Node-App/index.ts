@@ -1,4 +1,4 @@
-import express, { Application, NextFunction } from "express";
+import express, { Application } from "express";
 const app: Application = express();
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
@@ -6,22 +6,12 @@ import main from "./routes/router";
 dotenv.config();
 const port = process.env.PORT;
 import cors from "cors";
-import path = require("path");
 
 app.use(cookieParser());
 import bodyParser from 'body-parser';
-app.use(bodyParser.urlencoded({ extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-// app.use(
-//   "/css",
-//   express.static(path.join(__dirname, "node_modules/bootstrap/dist/css"))
-// );
-// app.use(
-//   "/js",
-//   express.static(path.join(__dirname, "node_modules/bootstrap/dist/js"))
-// );
-// app.set("view engine", "ejs");
-// app.use(express.static("public"));
+
 const corsOptions = {
   origin: 'http://localhost:5000',
   methods: 'GET, PUT, POST',

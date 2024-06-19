@@ -3,24 +3,33 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const passport_1 = __importDefault(require("passport"));
+const passport_jwt_1 = require("passport-jwt");
+const database_1 = __importDefault(require("../models/database"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
-function checkAuth(req, res, next) {
+const getToken = (req) => {
+    return req.cookies.token;
+};
+const jwtOptions = {
+    jwtFromRequest: getToken,
+    secretOrKey: `${process.env.JWT_SECRET}`,
+};
+const strategy = new passport_jwt_1.Strategy(jwtOptions, async (jwt_payload, done) => {
     try {
-        const token2 = req.cookies.token;
-        const key = process.env.JWT_SECRET_KEY;
-        const verified = jsonwebtoken_1.default.verify(token2, key);
-        if (verified) {
-            next();
+        const id = jwt_payload.id;
+        const user = await database_1.default.getrow(`select * from users where user_id=${id} `);
+        console.log(user);
+        if (user) {
+            return done(null, user);
         }
         else {
-            res.render("frontpage/login", { error: "something went wrong!!" });
+            return done(null, false);
         }
     }
     catch (error) {
-        res.render("frontpage/login", { error: "something went wrong!!" });
+        return done(error);
     }
-}
-exports.default = checkAuth;
+});
+passport_1.default.use(strategy);
 //# sourceMappingURL=checkauth.js.map

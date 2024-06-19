@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode, FC } from 'react';
-import { getCurrentUser } from '../services/authService';
+import { getCurrentUser } from './authService';
 
 interface AuthContextType {
     currentUser: User | null;
@@ -8,7 +8,8 @@ interface AuthContextType {
 
 interface User {
     token: string;
-    // Add other user properties here if needed
+    user_id: number;
+    msg: string
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -37,3 +38,6 @@ export const useAuth = (): AuthContextType => {
     }
     return context;
 };
+
+
+  

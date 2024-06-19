@@ -1,13 +1,16 @@
 import React, { useState, ChangeEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./login.css";
-import axios from "axios";
+// import axios from "axios";
 import { LoginData } from "../interfacefile";
 import { Validatelogin } from "../interfacefile";
+import { login } from "../authcontext/authService";
+import { useAuth } from "../authcontext/AuthContext";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
+  const { setCurrentUser } = useAuth();
   const [validaterr, setValidateerr] = useState<Validatelogin>({
     mail: "",
     pass: ""
@@ -43,12 +46,12 @@ const Login: React.FC = () => {
     const newerrors: Validatelogin = validateform(LoginData);
     setValidateerr(newerrors);
     if (newerrors.mail.length === 0 && newerrors.pass.length === 0) {
-      const result = await axios.get(`http://localhost:3036/checkuser/${LoginData.email}/${LoginData.password}`, { withCredentials: true });
-      const res: string = result.data.msg;
-      if (res === "Success") {
-        navigate("/form");
-
-      } else if (res === "wrong Data") {
+      const result = await login(LoginData.email, LoginData.password);
+      console.log(result);
+      if (result.msg === "Success") {
+        setCurrentUser(result);
+        navigate("/cart");
+      } else if (result.msg === "wrong Data") {
         setError("wrong Data!!")
       } else {
         setError("No data found!!")
@@ -95,7 +98,7 @@ const Login: React.FC = () => {
           </p>
         </div>
         <div className="flex">
-          <p>Don't have an Acoount? <Link to="/">Register</Link></p>
+          <p>Don&apos;t have an Acoount? <Link to="/">Register</Link></p>
         </div>
         <p id="error">{error}</p>
       </form>

@@ -43,7 +43,7 @@ const Activate: React.FC = () => {
     } else {
         return (
             <div className="denied">
-                <h1 >Can't Access!!</h1>
+                <h1 >Can&apos;t Access!!</h1>
             </div>
         )
     }

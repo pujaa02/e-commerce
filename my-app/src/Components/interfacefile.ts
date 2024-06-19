@@ -20,88 +20,15 @@ export interface LoginData {
     email: string;
     password: string;
 }
-export interface FormData {
-    fname?: string;
-    lname?: string;
-    designa?: string;
-    bd?: string;
-    email?: string;
-    phone?: string;
-    zipcode?: string;
-    address1?: string;
-    address2?: string;
-    city?: string;
-    state?: string;
-    gender?: string;
-    rel_status?: string;
-
-    experience: {
-        companyname: string;
-        designation: string;
-        from_date: string;
-        to_date: string;
-    }[];
-    relation: {
-        name: string;
-        mobileno: string;
-        rel: string;
-    }[];
-
-    board_name?: string[];
-    py?: number[];
-    percentage?: number[];
-
-    companyname?: string[];
-    designation?: string[];
-    from?: Date[];
-    to?: Date[];
-
-    hindi?: boolean;
-    read1?: boolean;
-    write1?: boolean;
-    speak1?: boolean;
-    english?: boolean;
-    read2?: boolean;
-    write2?: boolean;
-    speak2?: boolean;
-    gujarati?: boolean;
-    read3?: boolean;
-    write3?: boolean;
-    speak3?: boolean;
-    php?: boolean;
-    level1?: string;
-    mysql?: boolean;
-    level2?: string;
-    laravel?: boolean;
-    level3?: string;
-    oracle?: boolean;
-    level4?: string;
-
-    name?: string[];
-    mobileno?: number[];
-    rel?: string[];
-
-    preloc?: string[];
-    notice?: string;
-    exctc?: string;
-    curctc?: string;
-    depa?: string;
-}
-export interface User {
-    emp_id: number;
-    fname: string;
-    lname: string;
-    designation: string;
-    email: string;
-    phone: string;
-    gender: string;
-    rel_status: string;
-    address1: string;
-    address2: string;
-    city: string;
-    state: string;
-    zipcodecode: string;
-    bd: string;
+export interface Data {
+    product_data_id: number;
+    title: string;
+    price: number;
+    description: string;
+    category: string;
+    image: string;
+    rate: number;
+    count: number;
 }
 export interface propState {
     id: string;
@@ -133,3 +60,8 @@ export interface Value {
     code: string;
 }
 
+export interface ProtectedRouteProps {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    component: React.ComponentType<any>;
+    // path: string;
+}

@@ -5,7 +5,7 @@ import User from "./user.controller";
 import parser from "body-parser";
 import bcrypt from 'bcryptjs';
 import jwt from "jsonwebtoken";
-import { Model, Optional, TableName } from "sequelize";
+import { Model, Optional } from "sequelize";
 import { UserAttributes, PasswordData, RegisterData } from "../interfacefile";
 import { UserAttri } from "./user.controller";
 route.use(parser.json());
@@ -55,9 +55,9 @@ const activatecheck = async (req: Request, res: Response) => {
     const d1: Date = new Date();
     if (result) {
         const d2: Date = new Date(result?.dataValues.createdAt);
-        var diff: number = (d1.getTime() - d2.getTime()) / 1000;
-        var diffsec: number = d1.getSeconds() - d2.getSeconds();
-        diff /= 60 * 60;
+        // let diff: number = (d1.getTime() - d2.getTime()) / 1000;
+        const diffsec: number = d1.getSeconds() - d2.getSeconds();
+        // diff /= 60 * 60;
         const final2: number = Math.round(diffsec);
         if (final2 <= 60 && final2 >= 0) {
             return res.json({ message: "success" })
@@ -90,6 +90,7 @@ const password = async (req: Request, res: Response) => {
     }
     );
 };
+
 // route.get("/checkuser/:email/:pass",
 const checkuser = async (req: Request, res: Response) => {
     const email: string = req.params.email;
@@ -99,9 +100,12 @@ const checkuser = async (req: Request, res: Response) => {
         if (result?.dataValues) {
             const isPassSame: boolean = await bcrypt.compare(pass, result?.dataValues.password);
             if (isPassSame === true) {
-                
+                const payload = {
+                    id: result?.dataValues.user_id,
+                    email: result?.dataValues.email
+                }
                 const token: string = jwt.sign(
-                    { email: result?.dataValues.email },
+                    payload,
                     jwtsecret as string,
                     { expiresIn: "1h" },
                 );
@@ -133,5 +137,12 @@ const finduser = async (req: Request, res: Response) => {
     }
 };
 
-export default { register, activatecheck, deleteuser, password, checkuser, finduser };
+
+const getuser = async (req: Request, res: Response) => {
+    console.log(req);
+    res.json({ username: req.user });
+};
+
+
+export default { register, activatecheck, deleteuser, password, checkuser, finduser, getuser };
 

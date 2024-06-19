@@ -65,9 +65,9 @@ const activatecheck = async (req, res) => {
     const d1 = new Date();
     if (result) {
         const d2 = new Date(result?.dataValues.createdAt);
-        var diff = (d1.getTime() - d2.getTime()) / 1000;
-        var diffsec = d1.getSeconds() - d2.getSeconds();
-        diff /= 60 * 60;
+        // let diff: number = (d1.getTime() - d2.getTime()) / 1000;
+        const diffsec = d1.getSeconds() - d2.getSeconds();
+        // diff /= 60 * 60;
         const final2 = Math.round(diffsec);
         if (final2 <= 60 && final2 >= 0) {
             return res.json({ message: "success" });
@@ -109,7 +109,11 @@ const checkuser = async (req, res) => {
         if (result?.dataValues) {
             const isPassSame = await bcryptjs_1.default.compare(pass, result?.dataValues.password);
             if (isPassSame === true) {
-                const token = jsonwebtoken_1.default.sign({ email: result?.dataValues.email }, jwtsecret, { expiresIn: "1h" });
+                const payload = {
+                    id: result?.dataValues.user_id,
+                    email: result?.dataValues.email
+                };
+                const token = jsonwebtoken_1.default.sign(payload, jwtsecret, { expiresIn: "1h" });
                 res.cookie("token", token, { httpOnly: false, secure: true, maxAge: 24 * 60 * 60 * 1000, sameSite: 'none' }).json({ msg: "Success", token, user_id: result?.dataValues.user_id });
             }
             else {
@@ -141,5 +145,9 @@ const finduser = async (req, res) => {
         res.json({ msg: "No data found!!" });
     }
 };
-exports.default = { register, activatecheck, deleteuser, password, checkuser, finduser };
+const getuser = async (req, res) => {
+    console.log(req);
+    res.json({ username: req.user });
+};
+exports.default = { register, activatecheck, deleteuser, password, checkuser, finduser, getuser };
 //# sourceMappingURL=userauthenticate.js.map

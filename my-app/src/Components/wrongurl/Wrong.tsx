@@ -1,4 +1,6 @@
-import "./wrong.css"
+import React from "react";
+import "./wrong.css";
+
 const Wrong = () => {
     return (
         <div className="middle">

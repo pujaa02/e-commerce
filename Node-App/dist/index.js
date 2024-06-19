@@ -15,16 +15,6 @@ app.use((0, cookie_parser_1.default)());
 const body_parser_1 = __importDefault(require("body-parser"));
 app.use(body_parser_1.default.urlencoded({ extended: false }));
 app.use(body_parser_1.default.json());
-// app.use(
-//   "/css",
-//   express.static(path.join(__dirname, "node_modules/bootstrap/dist/css"))
-// );
-// app.use(
-//   "/js",
-//   express.static(path.join(__dirname, "node_modules/bootstrap/dist/js"))
-// );
-// app.set("view engine", "ejs");
-// app.use(express.static("public"));
 const corsOptions = {
     origin: 'http://localhost:5000',
     methods: 'GET, PUT, POST',

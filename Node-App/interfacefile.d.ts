@@ -63,72 +63,15 @@ export interface Queryjson {
     bg: string;
     opa: string;
 }
-export interface FormData {
-    fname: string;
-    lname: string;
-    designa: string;
-    bd: string;
-    email: string;
-    phone: string;
-    zipcode: string;
-    address1: string;
-    address2: string;
-    city: string;
-    state: string;
-    gender: string;
-    rel_status: string;
-
-    board_name: string[];
-    py: number[];
-    percentage: number[];
-    experience: {
-        companyname: string;
-        designation: string;
-        from_date: string;
-        to_date: string;
-    }[];
-    
-    relation: {
-        name: string;
-        mobileno: string;
-        rel: string;
-    }[];
-
-    // companyname: string[];
-    // designation: string[];
-    // from: Date[];
-    // to: Date[];
-
-    hindi: boolean;
-    read1: boolean;
-    write1: boolean;
-    speak1: boolean;
-    english: boolean;
-    read2: boolean;
-    write2: boolean;
-    speak2: boolean;
-    gujarati: boolean;
-    read3: boolean;
-    write3: boolean;
-    speak3: boolean;
-    php: boolean;
-    level1: string;
-    mysql: boolean;
-    level2: string;
-    laravel: boolean;
-    level3: string;
-    oracle: boolean;
-    level4: string;
-
-    // name: string[];
-    // mobileno: number[];
-    // rel: string[];
-
-    preloc: string[];
-    notice: string;
-    exctc: string;
-    curctc: string;
-    depa: string;
+export interface productdata {
+    id: number;
+    title: string;
+    price: number;
+    description: string;
+    category: string;
+    image: string;
+    rate: number;
+    count: number;
 }
 export interface Ids {
     id: number | string;

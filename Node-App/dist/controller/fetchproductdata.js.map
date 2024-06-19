@@ -1,0 +1,1 @@
+{"version":3,"file":"fetchproductdata.js","sourceRoot":"","sources":["../../controller/fetchproductdata.ts"],"names":[],"mappings":";;;;;AACA,kEAAqC;AAIrC,MAAM,cAAc,GAAG,KAAK,EAAE,GAAY,EAAE,GAAa,EAAE,EAAE;IACzD,MAAM,WAAW,GAAkB,MAAM,kBAAG,CAAC,MAAM,CAAC,4BAA4B,CAAC,CAAC;IAClF,GAAG,CAAC,IAAI,CAAC,EAAE,MAAM,EAAE,WAAW,EAAE,CAAC,CAAA;AACrC,CAAC,CAAA;AAED,kBAAe,cAAc,CAAC"}

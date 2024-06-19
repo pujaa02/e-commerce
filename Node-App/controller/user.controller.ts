@@ -1,4 +1,4 @@
-import { INTEGER, Model, Optional, DataType, ModelCtor } from "sequelize";
+import { INTEGER, Model} from "sequelize";
 import sequelize from "../models/sequalize";
 import { DataTypes } from "sequelize";
 
