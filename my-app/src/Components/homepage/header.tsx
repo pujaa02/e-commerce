@@ -7,17 +7,10 @@ import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 
 import Grid from "@mui/material/Grid";
 import { useSelector } from "react-redux";
-import { CartItem, State } from "../interfacefile";
+import { State } from "../interfacefile";
 
 const Header: React.FC = () => {
-    const cart: CartItem[] = useSelector((state: State) => state.cart);
-    const getTotalQuantity = () => {
-        let total = 0
-        cart?.forEach(item => {
-            total += item.count
-        })
-        return total
-    }
+    const cart: State = useSelector((state: State) => state);
     return (
         <Grid container sx={{ color: 'text.primary' }}>
             <div className="home_container">
@@ -32,7 +25,7 @@ const Header: React.FC = () => {
                             <Link to="/profile"><PersonOutlineIcon className="icons_material" />Profile</Link>
                         </li>
                         <li id="relative_basket">
-                            <Link to="/cart"><ShoppingCartIcon /><p>{getTotalQuantity() || 0}</p></Link>
+                            <Link to="/cart"><ShoppingCartIcon /><p>{cart.totalItems || 0}</p></Link>
                         </li>
                     </ul>
                 </div>

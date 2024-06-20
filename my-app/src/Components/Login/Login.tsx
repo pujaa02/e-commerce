@@ -47,7 +47,7 @@ const Login: React.FC = () => {
     setValidateerr(newerrors);
     if (newerrors.mail.length === 0 && newerrors.pass.length === 0) {
       const result = await login(LoginData.email, LoginData.password);
-      console.log(result);
+      console.log(result.user_id, "result");
       if (result.msg === "Success") {
         setCurrentUser(result);
         navigate("/cart");

@@ -11,7 +11,6 @@ import { State, Data, CartItem } from "../interfacefile";
 
 const Cart: React.FC = () => {
     const cart = useSelector((state: State) => state);
-    console.log(cart,"cart");
     const finaldata: CartItem[] = cart.cart;
     const dispatch = useDispatch();
     return (

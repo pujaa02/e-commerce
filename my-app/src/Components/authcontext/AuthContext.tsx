@@ -9,25 +9,32 @@ interface AuthContextType {
 interface User {
     token: string;
     user_id: number;
-    msg: string
+    msg: string;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
-    const [currentUser, setCurrentUser] = useState<User | null>(null);
+    const [currentUser, setCurrentUser] = useState<User | null>(getCurrentUser());
 
     useEffect(() => {
         const user = getCurrentUser();
-        // console.log(user,"user");
         if (user) {
             setCurrentUser(user);
         }
     }, []);
-//  console.log(currentUser,"curuser");
- 
+
+    const saveCurrentUser = (user: User | null) => {
+        setCurrentUser(user);
+        if (user) {
+            localStorage.setItem('currentUser', JSON.stringify(user));
+        } else {
+            localStorage.removeItem('currentUser');
+        }
+    };
+
     return (
-        <AuthContext.Provider value={{ currentUser, setCurrentUser }}>
+        <AuthContext.Provider value={{ currentUser, setCurrentUser: saveCurrentUser }}>
             {children}
         </AuthContext.Provider>
     );
@@ -40,6 +47,3 @@ export const useAuth = (): AuthContextType => {
     }
     return context;
 };
-
-
-  

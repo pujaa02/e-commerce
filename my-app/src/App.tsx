@@ -16,8 +16,8 @@ import { ProtectedRouteProps } from "./Components/interfacefile";
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ component: Component }) => {
   const { currentUser } = useAuth();
-  // console.log(currentUser);
-  return currentUser?.user_id ? <Component /> : <Navigate to="/login" />;
+  console.log(currentUser?.user_id, "curentuserrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
+  return (currentUser?.user_id) ? <Component /> : <Navigate to="/login" />;
 };
 
 const App: React.FC = () => {
@@ -32,7 +32,6 @@ const App: React.FC = () => {
           <Route path="/password" element={<Password />}></Route>
           <Route path="/forget" element={<ForgetPass />}></Route>
           <Route path="/" element={<Home />}></Route>
-          {/* <Route path="/cart" element={<Cart />}></Route> */}
           <Route path="*" element={<Wrong />}></Route>
         </Routes>
       </AuthProvider>
