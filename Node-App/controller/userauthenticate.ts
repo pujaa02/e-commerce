@@ -139,7 +139,6 @@ const finduser = async (req: Request, res: Response) => {
 
 
 const getuser = async (req: Request, res: Response) => {
-    console.log(req);
     res.json({ username: req.user });
 };
 

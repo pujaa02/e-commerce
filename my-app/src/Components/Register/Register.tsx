@@ -75,7 +75,6 @@ const Register: React.FC = () => {
     if ((Object.values(newerrors)).length === 0) {
       const result = await axios.get(`http://localhost:3036/finduser/${RegData.email}`, { withCredentials: true });
       const checkuser = result.data.msg;
-      console.log(checkuser);
       if (checkuser === "Success") {
         setError("Email Exists!!")
       } else {

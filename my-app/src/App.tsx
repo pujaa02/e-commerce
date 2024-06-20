@@ -16,7 +16,6 @@ import { ProtectedRouteProps } from "./Components/interfacefile";
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ component: Component }) => {
   const { currentUser } = useAuth();
-  console.log(currentUser?.user_id, "curentuserrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
   return (currentUser?.user_id) ? <Component /> : <Navigate to="/login" />;
 };
 
