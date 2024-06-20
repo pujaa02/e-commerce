@@ -22,6 +22,11 @@ const cartSlice = createSlice({
             const itemInCart = state.cart.find((item) => item.product_data_id === action.payload.product_data_id);
             if (itemInCart) {
                 itemInCart.count++;
+                state.totalItems++;
+                state.total += itemInCart.price;
+                localStorage.setItem("totalItems", JSON.stringify(state.totalItems));
+                localStorage.setItem("total", JSON.stringify(state.total));
+                toast.success("Item added to cart");
             } else {
                 const item = action.payload;
                 state.cart.push({ ...item, count: 1 });
@@ -38,8 +43,10 @@ const cartSlice = createSlice({
             if (item) {
                 item.count++;
                 state.total += item.price;
+                state.totalItems++;
                 localStorage.setItem("cart", JSON.stringify(state.cart));
                 localStorage.setItem("total", JSON.stringify(state.total));
+                localStorage.setItem("totalItems", JSON.stringify(state.totalItems));
             }
         },
         decrementQuantity: (state, action) => {
@@ -49,32 +56,40 @@ const cartSlice = createSlice({
                     state.cart = state.cart.filter((item) => item.product_data_id !== action.payload);
                     state.totalItems--;
                     state.total -= item.price;
-                    // localStorage.setItem("cart", JSON.stringify(state.cart));
                     localStorage.setItem("total", JSON.stringify(state.total));
                     localStorage.setItem("totalItems", JSON.stringify(state.totalItems));
                 } else {
                     item.count--;
                     state.total -= item.price;
+                    state.totalItems--;
                     localStorage.setItem("total", JSON.stringify(state.total));
                     localStorage.setItem("totalItems", JSON.stringify(state.totalItems));
                 }
-                // localStorage.setItem("cart", JSON.stringify(state.cart));
-                // localStorage.setItem("total", JSON.stringify(state.total));
-                // localStorage.setItem("totalItems", JSON.stringify(state.totalItems));
             }
         },
         removeFromCart: (state, action) => {
             const itemId = action.payload;
-            const index = state.cart.findIndex((item) => item.product_data_id === itemId);
-            if (index >= 0) {
-                state.totalItems--;
-                state.total -= state.cart[index].price;
-                state.cart.splice(index, 1);
-                localStorage.setItem("cart", JSON.stringify(state.cart));
-                localStorage.setItem("total", JSON.stringify(state.total));
-                localStorage.setItem("totalItems", JSON.stringify(state.totalItems));
-                toast.success("Item removed from cart");
-            }
+            console.log("itemid", itemId);
+
+
+
+            (state.cart).forEach((item) => {
+                if (item.product_data_id === itemId) {
+                    console.log("item", item);
+                    console.log(item.count);
+                    item.count--;
+                    state.totalItems--;
+                    state.total -= item.price;
+                    localStorage.setItem("total", JSON.stringify(state.total));
+                    localStorage.setItem("totalItems", JSON.stringify(state.totalItems));
+                }
+            })
+            const removeitem = state.cart.filter((item) => (
+                item.product_data_id !== itemId));
+            state.cart = removeitem;
+            localStorage.setItem("cart", JSON.stringify(state.cart));
+            toast.success("Item removed from cart");
+
         },
     },
 });
