@@ -1,93 +1,90 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { toast } from "react-hot-toast";
-import { State } from "../interfacefile";
+import React from "react";
+import { Routes, Route, Navigate } from 'react-router-dom';
+import "./App.css";
+import Login from "./Components/Login/Login";
+import Register from "./Components/Register/Register";
+import Activate from "./Components/Password/Activate";
+import Password from "./Components/Password/Password";
+import Wrong from "./Components/wrongurl/Wrong";
+import ForgetPass from "./Components/forgetpassword/ForgetPass";
+import Home from "./Components/homepage/Home";
+import Cart from "./Components/homepage/Cart";
+import { AuthProvider, useAuth } from './Components/authcontext/AuthContext';
+import { ProtectedRouteProps } from "./Components/interfacefile";
 
-const initialState: State = {
-    cart: localStorage.getItem("cart")
-        ? JSON.parse(localStorage.getItem("cart") || "")
-        : [],
-    total: localStorage.getItem("total")
-        ? JSON.parse(localStorage.getItem("total") || "")
-        : 0,
-    totalItems: localStorage.getItem("totalItems")
-        ? JSON.parse(localStorage.getItem("totalItems") || "")
-        : 0,
+
+
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ component: Component }) => {
+    const { currentUser } = useAuth();
+    console.log(currentUser?.user_id, "curentuserrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
+    return (currentUser?.user_id) ? <Component /> : <Navigate to="/login" />;
 };
 
-const cartSlice = createSlice({
-    name: "cart",
-    initialState,
-    reducers: {
-        addToCart: (state, action) => {
-            const itemInCart = state.cart.find((item) => item.product_data_id === action.payload.product_data_id);
-            if (itemInCart) {
-                itemInCart.count++;
-                state.totalItems++;
-                state.total += itemInCart.price;
-                localStorage.setItem("totalItems", JSON.stringify(state.totalItems));
-                localStorage.setItem("total", JSON.stringify(state.total));
-                toast.success("Item added to cart");
-            } else {
-                const item = action.payload;
-                state.cart.push({ ...item, count: 1 });
-                state.totalItems++;
-                state.total += item.price;
-                localStorage.setItem("cart", JSON.stringify(state.cart));
-                localStorage.setItem("total", JSON.stringify(state.total));
-                localStorage.setItem("totalItems", JSON.stringify(state.totalItems));
-                toast.success("Item added to cart");
-            }
-        },
-        incrementQuantity: (state, action) => {
-            const item = state.cart.find((item) => item.product_data_id === action.payload);
-            if (item) {
-                item.count++;
-                state.total += item.price;
-                state.totalItems++;
-                localStorage.setItem("cart", JSON.stringify(state.cart));
-                localStorage.setItem("total", JSON.stringify(state.total));
-                localStorage.setItem("totalItems", JSON.stringify(state.totalItems));
-            }
-        },
-        decrementQuantity: (state, action) => {
-            const item = state.cart.find((item) => item.product_data_id === action.payload);
-            if (item) {
-                if (item.count === 1) {
-                    state.cart = state.cart.filter((item) => item.product_data_id !== action.payload);
-                    state.totalItems--;
-                    state.total -= item.price;
-                } else {
-                    item.count--;
-                    state.total -= item.price;
-                    state.totalItems--;
-                }
-                localStorage.setItem("cart", JSON.stringify(state.cart));
-                localStorage.setItem("total", JSON.stringify(state.total));
-                localStorage.setItem("totalItems", JSON.stringify(state.totalItems));
-            }
-        },
-        removeFromCart: (state, action) => {
-            const itemId = action.payload;
-            const item = state.cart.find((item) => item.product_data_id === itemId);
-            
-            if (item) {
-                // Update total and totalItems before removing the item
-                state.totalItems -= item.count;
-                state.total -= item.price * item.count;
-                
-                // Remove the item from the cart
-                state.cart = state.cart.filter((item) => item.product_data_id !== itemId);
+const App: React.FC = () => {
+    return (
+        <div className="App">
+            <AuthProvider>
+                <Routes>
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/cart" element={<ProtectedRoute component={Cart} />} />
+                    <Route path="/register" element={<Register />}></Route>
+                    <Route path="/activate/:actcode" element={<Activate />}></Route>
+                    <Route path="/password" element={<Password />}></Route>
+                    <Route path="/forget" element={<ForgetPass />}></Route>
+                    <Route path="/" element={<Home />}></Route>
+                    <Route path="*" element={<Wrong />}></Route>
+                </Routes>
+            </AuthProvider>
+        </div>
+    );
+};
 
-                // Update local storage
-                localStorage.setItem("cart", JSON.stringify(state.cart));
-                localStorage.setItem("total", JSON.stringify(state.total));
-                localStorage.setItem("totalItems", JSON.stringify(state.totalItems));
+export default App;
 
-                toast.success("Item removed from cart");
-            }
-        },
-    },
-});
 
-export const { addToCart, incrementQuantity, decrementQuantity, removeFromCart } = cartSlice.actions;
-export default cartSlice.reducer;
+import React, { createContext, useContext, useState, useEffect, ReactNode, FC } from 'react';
+import { getCurrentUser } from './authService';
+
+interface AuthContextType {
+    currentUser: User | null;
+    setCurrentUser: (user: User | null) => void;
+}
+
+interface User {
+    token: string;
+    user_id: number;
+    msg: string
+}
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
+    const [currentUser, setCurrentUser] = useState<User | null>(null);
+
+    useEffect(() => {
+        const user = getCurrentUser();
+        console.log(user, "user");
+        if (user) {
+            setCurrentUser(user);
+        }
+    }, []);
+    console.log(currentUser, "curuserofauthcontextpage");
+
+    return (
+        <AuthContext.Provider value={{ currentUser, setCurrentUser }}>
+            {children}
+        </AuthContext.Provider>
+    );
+};
+
+export const useAuth = (): AuthContextType => {
+    const context = useContext(AuthContext);
+    console.log(context, "context");
+
+    if (context === undefined) {
+        throw new Error('useAuth must be used within an AuthProvider');
+    }
+    return context;
+};
+
+
