@@ -58,7 +58,7 @@ export interface Value {
 export interface ProtectedRouteProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     component: React.ComponentType<any>;
-    // path: string;
+
 }
 export interface cartdata {
     id: number;
@@ -81,6 +81,7 @@ export interface CartItem {
     isDeleted: number;
 }
 export interface State {
+    wishlist: CartItem[],
     cart: CartItem[];
     total: number;
     totalItems: number;

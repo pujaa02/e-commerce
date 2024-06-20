@@ -34,12 +34,30 @@
 .subtotal_container {
   float: right;
   margin-right: 505px;
-  margin-top: 25px;
+  margin-top:50px;
 }
 .checkout_btn {
-  padding: 6px 8px;
+  padding: 15px;
   background-color: green;
   border-radius: 7px;
   color: #f2f2f2;
   font-weight: bold;
+  font-size: 22px;
+  width: 300px;
+  margin-top: 15rem;
+  margin-left: 50rem;
+}
+#empty_cart {
+  border-radius: 10px;
+  margin: 0 40rem;
+}
+#head_cart {
+  margin-left: 50rem;
+  margin-top: 30px;
+  font-size: 25px;
+  font-weight: bold;
+  color: red;
+}
+.subtotal {
+  font-size: 20px;
 }

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 import Grid from "@mui/material/Grid";
 import { useSelector } from "react-redux";
@@ -26,6 +27,9 @@ const Header: React.FC = () => {
                         </li>
                         <li id="relative_basket">
                             <Link to="/cart"><ShoppingCartIcon /><p>{cart.totalItems || 0}</p></Link>
+                        </li>
+                        <li id="relative_basket">
+                            <Link to="/wishlist"><FavoriteIcon /> <p>{(cart.wishlist).length || 0}</p></Link>
                         </li>
                     </ul>
                 </div>

@@ -1,0 +1,44 @@
+.wishlist_img {
+  height: 250px;
+  width: 250px;
+  float: left;
+  margin-right: 2rem;
+}
+.wishlist_container {
+  margin: 20px auto;
+  width: 60%;
+}
+.content_data {
+  height: 350px;
+}
+.right_content {
+  padding-top: 3rem;
+}
+.title_watchlist {
+  font-size: 20px;
+  font-weight: bold;
+  color: rgb(80, 76, 76);
+}
+#header_watchlist {
+  margin-top: 25px;
+  color: red;
+  text-decoration: underline;
+}
+.descri {
+  font-family: monospace;
+  font-size: 15px;
+}
+.remove_watchlist {
+  border-radius: 10px;
+  background: #fa7070;
+  color: #ffffff;
+  width: 150px;
+  padding: 6px;
+  padding-left: 25px;
+  margin-left: 300px;
+  font-size: 20px;
+  font-weight: bold;
+}
+.cart_wishlist{
+    margin-bottom: 15px;
+}

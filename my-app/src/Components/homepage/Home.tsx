@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import StarIcon from '@mui/icons-material/Star';
 import Grid from "@mui/material/Grid";
 import axios from "axios";
 import { Data } from "../interfacefile";
 import Header from "./header";
-import { addToCart } from './CartFuncationality';
+import { addToCart, addwishlist } from './CartFuncationality';
 import "./home.css";
 import { useDispatch } from "react-redux";
 
@@ -43,8 +44,11 @@ const Home: React.FC = () => {
                                         <p className="price">Price : <span className="spantag">${data.price}</span></p>
                                         <p className="text-truncate descri">Description : <span className="spantag">{data.description}</span></p>
                                     </div>
-                                    <div className="overlay" onClick={() => additem(data)}>
-                                        <AddShoppingCartIcon />Add to Card
+                                    <div className="flex_bottom">
+                                        <p className="overlay" onClick={() => additem(data)}>
+                                            <AddShoppingCartIcon />Add Item
+                                        </p>
+                                        <p className="wishlist" onClick={() => dispatch(addwishlist(data))}><FavoriteIcon /></p>
                                     </div>
                                 </div>
                             </div>

@@ -3,6 +3,9 @@ import { toast } from "react-hot-toast";
 import { State } from "../interfacefile";
 
 const initialState: State = {
+    wishlist: localStorage.getItem("wishlist")
+        ? JSON.parse(localStorage.getItem("wishlist") || "")
+        : [],
     cart: localStorage.getItem("cart")
         ? JSON.parse(localStorage.getItem("cart") || "")
         : [],
@@ -83,9 +86,36 @@ const cartSlice = createSlice({
 
                 toast.success("Item removed from cart");
             }
+        }, emptyCart: (state, action) => {
+            const cart = action.payload;
+            console.log(cart, "cart");
+            console.log(state, "state");
+            state.cart = [];
+            state.total = 0;
+            state.totalItems = 0
+            localStorage.setItem("cart", JSON.stringify(state.cart));
+            localStorage.setItem("total", JSON.stringify(state.total));
+            localStorage.setItem("totalItems", JSON.stringify(state.totalItems));
+            toast.success("Item Proceed Successfully");
         },
+        addwishlist: (state, action) => {
+            const itemInCart = state.wishlist.find((item) => item.product_data_id === action.payload.product_data_id);
+            if (itemInCart) {
+                toast.success("Item Already Exist in WishList");
+            } else {
+                const item = action.payload;
+                state.wishlist.push({ ...item });
+                localStorage.setItem("wishlist", JSON.stringify(state.wishlist));
+                toast.success("Item added to WishList");
+            }
+        },
+        removewishlist: (state, action) => {
+            state.wishlist = state.wishlist.filter((item) => item.product_data_id !== action.payload);
+            localStorage.setItem("wishlist", JSON.stringify(state.wishlist));
+            toast.success("Item Removed from WishList");
+        }
     },
 });
 
-export const { addToCart, incrementQuantity, decrementQuantity, removeFromCart } = cartSlice.actions;
+export const { addToCart, incrementQuantity, decrementQuantity, removeFromCart, emptyCart, addwishlist, removewishlist } = cartSlice.actions;
 export default cartSlice.reducer;

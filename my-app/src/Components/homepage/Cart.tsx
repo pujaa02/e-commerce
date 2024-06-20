@@ -6,13 +6,26 @@ import Header from "./header";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import { removeFromCart, incrementQuantity, decrementQuantity } from "./CartFuncationality";
+import { removeFromCart, incrementQuantity, decrementQuantity, emptyCart } from "./CartFuncationality";
 import { State, Data, CartItem } from "../interfacefile";
 
 const Cart: React.FC = () => {
     const cart = useSelector((state: State) => state);
     const finaldata: CartItem[] = cart.cart;
     const dispatch = useDispatch();
+    if (finaldata.length === 0) {
+        return (
+            <Grid container sx={{ color: 'text.primary' }}>
+                <div className="home_container">
+                    <Header />
+                    <div className="empty_cart">
+                        <p id="head_cart">Your Cart is Now Empty!!</p>
+                        <img id="empty_cart" src={require(`./empty_cart.gif`)} alt="none" />
+                    </div>
+                </div>
+            </Grid>
+        )
+    }
     return (
         <Grid container sx={{ color: 'text.primary' }}>
             <div className="home_container">
@@ -58,9 +71,12 @@ const Cart: React.FC = () => {
                         </tbody>
                     </table>
                     <div className="subtotal_container">
-                        <p>SubTotal: {cart.total} </p>
-                        <p className="checkout_btn">Checkout</p>
+                        <p className="subtotal"><b >SubTotal : </b> ${cart.total} </p>
+                        <p className="subtotal"><b>Shipping Charge :</b> Free</p>
+                        <hr />
+                        <p className="subtotal"><b>TOtal : </b> ${cart.total}</p>
                     </div>
+                    <p className="checkout_btn" onClick={() => dispatch(emptyCart(finaldata))}>Proceed to Buy ({cart.totalItems} items) </p>
                 </div>
             </div>
         </Grid>
