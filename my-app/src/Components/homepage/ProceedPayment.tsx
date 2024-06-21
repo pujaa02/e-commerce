@@ -1,14 +1,50 @@
 import React from "react";
 import { Grid } from "@mui/material";
-import Header from "./header";
-
+import StarIcon from '@mui/icons-material/Star';
+import "./payment.css"
+import { useSelector } from "react-redux";
+import { CartItem, Data, State } from "../interfacefile";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const ProceedPayment: React.FC = () => {
+    const cart: State = useSelector((state: State) => state);
+    const finaldata: CartItem[] = cart.cart;
+    const navigate = useNavigate()
+    const payment = () => {
+        console.log("enter");
+
+        toast.success("Payment successfully Done");
+        navigate("/");
+    }
     return (
         <Grid container sx={{ color: 'text.primary' }}>
-            <div className="home_container">
-                <Header />
-                <p>Your Items Succesfully Placed!!</p>
+            <div className="payment_container">
+                <p>Order Now</p>
+            </div>
+            <div className="wishlist_container">
+                {finaldata.map((data: Data, index: number) => (
+                    <div className="cart_wishlist" key={index}>
+                        <div className="content_data">
+                            <img className="wishlist_img" src={data.image} alt="none" />
+                            <div className="right_content">
+                                <p className="rate_watchlist">{data.rate} <StarIcon className="rateicon" /></p>
+                                <p className="title_watchlist">{data.title}</p>
+                                <p className="price_watchlist"><b>Price : </b>${data.price}</p>
+                                <p className="descri"><b>Discription : </b>{data.description}</p>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+                <hr id="hr_tag" />
+                <div className="footer">
+                    <p><b>Items : </b> ${cart.total}</p>
+                    <p><b>Delivery : </b> ${(cart.totalItems) * 15}</p>
+                    <p><b>Total : </b> ${(cart.total) + ((cart.totalItems) * 15)}</p>
+                </div>
+                <div className="payment_btn">
+                    <p onClick={() => payment()}>Go to Payment</p>
+                </div>
             </div>
         </Grid>
     );

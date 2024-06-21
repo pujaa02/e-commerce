@@ -6,10 +6,12 @@ import Header from "./header";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import { removeFromCart, incrementQuantity, decrementQuantity, emptyCart } from "./CartFuncationality";
+import { removeFromCart, incrementQuantity, decrementQuantity } from "./CartFuncationality";
 import { State, Data, CartItem } from "../interfacefile";
+import { useNavigate } from "react-router-dom";
 
 const Cart: React.FC = () => {
+    const navigate = useNavigate();
     const cart = useSelector((state: State) => state);
     const finaldata: CartItem[] = cart.cart;
     const dispatch = useDispatch();
@@ -72,11 +74,11 @@ const Cart: React.FC = () => {
                     </table>
                     <div className="subtotal_container">
                         <p className="subtotal"><b >SubTotal : </b> ${cart.total} </p>
-                        <p className="subtotal"><b>Shipping Charge :</b> Free</p>
-                        <hr />
-                        <p className="subtotal"><b>TOtal : </b> ${cart.total}</p>
+                        {/* <p className="subtotal"><b>Shipping Charge :</b> Free</p> */}
+                        {/* <hr /> */}
+                        {/* <p className="subtotal"><b>TOtal : </b> ${cart.total}</p> */}
                     </div>
-                    <p className="checkout_btn" onClick={() => dispatch(emptyCart(finaldata))}>Proceed to Buy ({cart.totalItems} items) </p>
+                    <p className="checkout_btn" onClick={() => navigate("/payment")}>Proceed to Buy ({cart.totalItems} items) </p>
                 </div>
             </div>
         </Grid>

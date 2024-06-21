@@ -12,7 +12,7 @@ import Cart from "./Components/homepage/Cart";
 import { AuthProvider, useAuth } from './Components/authcontext/AuthContext';
 import { ProtectedRouteProps } from "./Components/interfacefile";
 import Watchlist from "./Components/homepage/Watchlist";
-// import ProceedPayment from "./Components/homepage/ProceedPayment";
+import ProceedPayment from "./Components/homepage/ProceedPayment";
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ component: Component }) => {
   const { currentUser } = useAuth();
@@ -30,7 +30,8 @@ const App: React.FC = () => {
       <AuthProvider>
         <Routes>
           <Route path="/login" element={<CheckUser component={Login} />} />
-          <Route path="/cart" element={<ProtectedRoute component={Cart} />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/payment" element={<ProtectedRoute component={ProceedPayment} />}></Route>
           <Route path="/wishlist" element={<Watchlist />}></Route>
           <Route path="/register" element={<Register />}></Route>
           <Route path="/activate/:actcode" element={<Activate />}></Route>

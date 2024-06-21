@@ -1,0 +1,35 @@
+.payment_container {
+  padding: 10px;
+  width: 100%;
+  background-color: #575c5f;
+}
+.payment_container p {
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+  color: #ffffff;
+}
+#hr_tag {
+  height: 5px;
+  background: black;
+}
+.footer {
+  float: right;
+}
+.footer p {
+  font-size: 22px;
+}
+.payment_btn {
+  margin-top: 10rem;
+  margin-left: 32rem;
+  background-color: rgb(233, 70, 70);
+  padding: 5px;
+  width: 180px;
+  height: 43px;
+}
+.payment_btn p {
+  font-size: 20px;
+  font-weight: bold;
+  color: #ffffff;
+  text-align: center;
+}
