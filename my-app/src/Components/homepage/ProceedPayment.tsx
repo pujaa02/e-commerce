@@ -2,20 +2,29 @@ import React from "react";
 import { Grid } from "@mui/material";
 import StarIcon from '@mui/icons-material/Star';
 import "./payment.css"
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { CartItem, Data, State } from "../interfacefile";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import axios from "axios";
+import { useAuth } from "../authcontext/AuthContext";
+import { emptyCart, removewishlist } from "./CartFuncationality";
 
 const ProceedPayment: React.FC = () => {
     const cart: State = useSelector((state: State) => state);
     const finaldata: CartItem[] = cart.cart;
+    const { currentUser } = useAuth();
     const navigate = useNavigate()
-    const payment = () => {
-        console.log("enter");
-
-        toast.success("Payment successfully Done");
-        navigate("/");
+    const dispatch = useDispatch();
+    const payment = async () => {
+        const result = await axios.get(`http://localhost:3036/deletecartitem/${currentUser?.user_id}`, { withCredentials: true });
+        const resultfav = await axios.get(`http://localhost:3036/deletefavitem/${currentUser?.user_id}`, { withCredentials: true });
+        if (result.data.msg === "success" && resultfav.data.msg === "success") {
+            dispatch(emptyCart(finaldata));
+            dispatch(removewishlist(cart.wishlist))
+            toast.success("Payment successfully Done");
+            navigate("/");
+        }
     }
     return (
         <Grid container sx={{ color: 'text.primary' }}>

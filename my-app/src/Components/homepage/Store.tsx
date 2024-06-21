@@ -30,7 +30,3 @@ export const store = configureStore({
 })
 
 export const persistor = persistStore(store)
-
-// const Reducer = combineReducers({
-//     cart: cartReducer,
-// })

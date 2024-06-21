@@ -74,9 +74,6 @@ const Cart: React.FC = () => {
                     </table>
                     <div className="subtotal_container">
                         <p className="subtotal"><b >SubTotal : </b> ${cart.total} </p>
-                        {/* <p className="subtotal"><b>Shipping Charge :</b> Free</p> */}
-                        {/* <hr /> */}
-                        {/* <p className="subtotal"><b>TOtal : </b> ${cart.total}</p> */}
                     </div>
                     <p className="checkout_btn" onClick={() => navigate("/payment")}>Proceed to Buy ({cart.totalItems} items) </p>
                 </div>

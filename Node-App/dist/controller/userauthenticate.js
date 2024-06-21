@@ -114,7 +114,7 @@ const checkuser = async (req, res) => {
                     email: result?.dataValues.email
                 };
                 const token = jsonwebtoken_1.default.sign(payload, jwtsecret, { expiresIn: "1h" });
-                res.cookie("token", token, { httpOnly: false, secure: true, maxAge: 24 * 60 * 60 * 1000, sameSite: 'none' }).json({ msg: "Success", token, user_id: result?.dataValues.user_id });
+                res.cookie("token", token, { httpOnly: false, secure: true, maxAge: 24 * 60 * 60 * 1000, sameSite: 'none' }).json({ msg: "Success", token, user_id: result?.dataValues.user_id, name: result?.dataValues.fname });
             }
             else {
                 res.json({ msg: "wrong Data" });

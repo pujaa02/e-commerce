@@ -13,8 +13,10 @@ route.get("/finduser/:email", userauthenticate.finduser);
 route.get("/user", passport.authenticate("jwt", { session: false }), userauthenticate.getuser)
 
 route.get("/getproductdata", data.getproductData);
-route.get("/getcartdata", data.getcartdata);
-route.get("/deletecartitem/:user_id/:product_data_id", data.deletecartitem);
-
+route.get("/getcartdata/:id", data.getcartdata);
+route.get("/deletecartitem/:user_id/", data.deletecartitem);
+route.post("/addtocart/:user_id", data.addtocart)
+route.get("/deletefavitem/:user_id/", data.deletefavitem);
+route.post("/addtofav/:user_id", data.addtofav);
 
 export default route;

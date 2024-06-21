@@ -77,7 +77,6 @@ export interface CartItem {
     count: number;
     id: number;
     user_id: number
-    // product_data_id: number;
     isDeleted: number;
 }
 export interface State {

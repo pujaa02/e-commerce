@@ -10,6 +10,7 @@ interface User {
     token: string;
     user_id: number;
     msg: string;
+    name: string;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);

@@ -41,6 +41,24 @@ const cartSlice = createSlice({
                 toast.success("Item added to cart");
             }
         },
+        newcart: (state, action) => {
+            const itemInCart = state.cart.find((item) => item.product_data_id === action.payload.product_data_id);
+            if (itemInCart) {
+                itemInCart.count++;
+                state.totalItems++;
+                state.total += itemInCart.price;
+                localStorage.setItem("totalItems", JSON.stringify(state.totalItems));
+                localStorage.setItem("total", JSON.stringify(state.total));
+            } else {
+                const item = action.payload;
+                state.cart.push({ ...item });
+                state.totalItems += item.count;
+                state.total += item.price * item.count;
+                localStorage.setItem("cart", JSON.stringify(state.cart));
+                localStorage.setItem("total", JSON.stringify(state.total));
+                localStorage.setItem("totalItems", JSON.stringify(state.totalItems));
+            }
+        },
         incrementQuantity: (state, action) => {
             const item = state.cart.find((item) => item.product_data_id === action.payload);
             if (item) {
@@ -109,6 +127,17 @@ const cartSlice = createSlice({
                 toast.success("Item added to WishList");
             }
         },
+        addfav: (state, action) => {
+            const itemInCart = state.wishlist.find((item) => item.product_data_id === action.payload.product_data_id);
+            if (itemInCart) {
+                state.wishlist = [];
+                localStorage.setItem("wishlist", JSON.stringify(state.wishlist));
+            } else {
+                const item = action.payload;
+                state.wishlist.push({ ...item });
+                localStorage.setItem("wishlist", JSON.stringify(state.wishlist));
+            }
+        },
         removewishlist: (state, action) => {
             state.wishlist = state.wishlist.filter((item) => item.product_data_id !== action.payload);
             localStorage.setItem("wishlist", JSON.stringify(state.wishlist));
@@ -117,5 +146,5 @@ const cartSlice = createSlice({
     },
 });
 
-export const { addToCart, incrementQuantity, decrementQuantity, removeFromCart, emptyCart, addwishlist, removewishlist } = cartSlice.actions;
+export const { addToCart, incrementQuantity, decrementQuantity, removeFromCart, emptyCart, addwishlist, removewishlist, newcart, addfav } = cartSlice.actions;
 export default cartSlice.reducer;

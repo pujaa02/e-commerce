@@ -54,3 +54,16 @@ export interface cartdata {
     product_data_id: number;
     isDeleted: number;
 }
+export interface CartItem {
+    product_data_id: number;
+    title: string;
+    price: number;
+    description: string;
+    category: string;
+    image: string;
+    rate: number;
+    count: number;
+    id: number;
+    user_id: number
+    isDeleted: number;
+}

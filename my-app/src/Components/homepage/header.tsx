@@ -5,13 +5,34 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-
+import LoginIcon from '@mui/icons-material/Login';
+import LogoutIcon from '@mui/icons-material/Logout';
 import Grid from "@mui/material/Grid";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { State } from "../interfacefile";
+import { useAuth } from "../authcontext/AuthContext";
+import { logout } from "../authcontext/authService";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { emptyCart, removewishlist } from "./CartFuncationality";
 
 const Header: React.FC = () => {
     const cart: State = useSelector((state: State) => state);
+    const { currentUser } = useAuth();
+    const { setCurrentUser } = useAuth();
+    const dispatch = useDispatch();
+    const user = currentUser?.user_id;
+    const handleLogout = async () => {
+        const cartresult = await axios.post(`http://localhost:3036/addtocart/${currentUser?.user_id}`, cart.cart, { withCredentials: true });
+        const favresult = await axios.post(`http://localhost:3036/addtofav/${currentUser?.user_id}`, cart.cart, { withCredentials: true });
+        if (cartresult.data.msg === "success" && favresult.data.msg === "success") {
+            dispatch(emptyCart(cart.cart));
+            dispatch(removewishlist(cart.wishlist))
+            logout();
+            setCurrentUser(null);
+            toast.success("Log out Successfully");
+        }
+    }
     return (
         <Grid container sx={{ color: 'text.primary' }}>
             <div className="home_container">
@@ -22,9 +43,14 @@ const Header: React.FC = () => {
                         <li>
                             <Link to="/"><ShoppingBagIcon className="icons_material" />Shop</Link>
                         </li>
-                        <li>
-                            <Link to="/profile"><PersonOutlineIcon className="icons_material" />Profile</Link>
-                        </li>
+                        {user ? <li>
+                            <Link to=""><PersonOutlineIcon className="icons_material" />{currentUser.name}</Link>
+                        </li> : <li>
+                            <Link to="/login"><LoginIcon className="icons_material" />Login</Link>
+                        </li>}
+                        {user && <li onClick={handleLogout}>
+                            <Link to=""><LogoutIcon className="icons_material" />Log Out</Link>
+                        </li>}
                         <li id="relative_basket">
                             <Link to="/cart"><ShoppingCartIcon /><p>{cart.totalItems || 0}</p></Link>
                         </li>
@@ -40,3 +66,5 @@ const Header: React.FC = () => {
 };
 
 export default Header;
+
+
