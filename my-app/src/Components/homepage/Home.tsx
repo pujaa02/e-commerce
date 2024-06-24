@@ -62,7 +62,3 @@ const Home: React.FC = () => {
 };
 
 export default Home;
-{/* <img id="logo" src={require(`../homepage/mylogo.jpg`)} alt="none" />  */ }
-// http://fakestoreapi.com/PRODUCTS
-{/* <p className="text-truncate descri">{data.description}</p> */ }
-{/* <CurrencyRupeeIcon className="icon" /> */ }

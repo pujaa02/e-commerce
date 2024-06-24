@@ -16,6 +16,7 @@ import ProceedPayment from "./Components/homepage/ProceedPayment";
 import { useSelector } from "react-redux";
 
 
+
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ component: Component }) => {
   const { currentUser } = useAuth();
   const location = useLocation();
@@ -32,7 +33,6 @@ const CheckUser: React.FC<ProtectedRouteProps> = ({ component: Component }) => {
   const { currentUser } = useAuth();
   return (currentUser?.user_id) ? <Navigate to="/cart" /> : <Component />;
 }
-
 const App: React.FC = () => {
   return (
     <div className="App">

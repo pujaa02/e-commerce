@@ -124,5 +124,4 @@ const Password: React.FC = () => {
     );
 
 }
-
 export default Password;

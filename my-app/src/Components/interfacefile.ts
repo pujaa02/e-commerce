@@ -1,4 +1,3 @@
-
 export interface RegData2 {
     fname?: string;
     lname?: string;
@@ -73,15 +72,5 @@ export interface State {
     total: number;
     totalItems: number;
 }
-export interface State22 {
-    cart: {
-        cart: CartItem[];
-        total: number;
-        totalItems: number;
-    }
-    total: number;
-    totalItems: number;
-}
-
 export interface cartdata extends Data { }
 

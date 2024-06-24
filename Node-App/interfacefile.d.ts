@@ -1,13 +1,3 @@
-
-export interface Queryjson {
-    query: string;
-    fname: string;
-    lname: string;
-    email: string;
-    city: string;
-    bg: string;
-    opa: string;
-}
 export interface productdata {
     product_data_id: number;
     title: string;
@@ -34,10 +24,6 @@ export interface UserAttributes {
 export interface PasswordData {
     pass: string;
     repass: string;
-}
-export interface PayloadData {
-    id: string;
-    email: string;
 }
 export interface RegisterData {
     user_id: number;
