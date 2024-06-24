@@ -1,4 +1,4 @@
-To achieve the functionality where, after logging in, the user is redirected to the page they were initially trying to access
+// To achieve the functionality where, after logging in, the user is redirected to the page they were initially trying to access
 
 
 import { useHistory, useLocation } from 'react-router-dom';
