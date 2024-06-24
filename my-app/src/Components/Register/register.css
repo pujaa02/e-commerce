@@ -1,7 +1,7 @@
 .register-form-container {
   width: 550px;
   padding: 20px;
-  border:4px solid #376ba0;
+  border: 4px solid #376ba0;
   border-radius: 10px;
   background-color: #ffffff;
   height: 500px;
@@ -104,4 +104,7 @@ h2 {
   color: #ff0000;
   font-size: 14px;
   margin-top: 5px;
+}
+.red {
+  color: red;
 }

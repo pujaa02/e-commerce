@@ -43,10 +43,11 @@ const register = async (req: Request, res: Response) => {
 
         res.json({ message: "success", actcode: accesskey, user_id });
     } catch (error) {
+        console.log(error);
+
         res.json({ message: "failed" });
     }
 }
-
 
 // route.get("/activatecheck/:user_id", 
 const activatecheck = async (req: Request, res: Response) => {
@@ -69,8 +70,13 @@ const activatecheck = async (req: Request, res: Response) => {
 // route.get("/deleteuser/:id", 
 const deleteuser = async (req: Request, res: Response) => {
     const user_id: string = req.params.id;
-    await User.update({ isdeleted: 1, deleted_at: new Date() }, { where: { user_id: user_id } })
-    res.json({ msg: "User Deleted !!" })
+    try {
+        await User.update({ isdeleted: 1, deleted_at: new Date() }, { where: { user_id: user_id } })
+        res.json({ msg: "User Deleted !!" })
+    } catch (error) {
+        console.log(error);
+        res.json({ msg: "User not Deleted !!" })
+    }
 };
 // route.post("/password/:user_id",
 const password = async (req: Request, res: Response) => {
@@ -85,6 +91,7 @@ const password = async (req: Request, res: Response) => {
             await User.update({ password: hashedPassword }, { where: { user_id: user_id } });
             res.json({ msg: "Success" })
         } catch (error) {
+            console.log(error);
             res.json({ msg: "Something Went Wrong!!" })
         }
     }
@@ -139,7 +146,6 @@ const finduser = async (req: Request, res: Response) => {
 
 
 const getuser = async (req: Request, res: Response) => {
-    console.log(req);
     res.json({ username: req.user });
 };
 

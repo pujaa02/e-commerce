@@ -24,7 +24,6 @@ const Password: React.FC = () => {
             setValue(user_id);
         }
     }, [location.state])
-
     const handleChange = (
         e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
     ) => {

@@ -15,6 +15,7 @@ import Watchlist from "./Components/homepage/Watchlist";
 import ProceedPayment from "./Components/homepage/ProceedPayment";
 import { useSelector } from "react-redux";
 
+
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ component: Component }) => {
   const { currentUser } = useAuth();
   const location = useLocation();

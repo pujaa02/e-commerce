@@ -1,11 +1,11 @@
 
-export interface RegData {
-    fname: string;
-    lname: string;
-    email: string;
-    phone: string;
-    gender: string;
-    bd: string;
+export interface RegData2 {
+    fname?: string;
+    lname?: string;
+    email?: string;
+    phone?: string;
+    gender?: string;
+    bd?: string;
 }
 export interface LoginData {
     email: string;
@@ -22,7 +22,6 @@ export interface Data {
     count: number;
     id: number;
     user_id: number
-    // product_data_id: number;
     isDeleted: number;
 }
 export interface propState {
@@ -34,21 +33,10 @@ export interface PassData {
     pass: string;
     repass: string;
 }
-export interface ValidateRegdata {
-    fn: string;
-    ln: string;
-    mail: string;
-    number: string;
-    gen: string;
-    dob: string;
-}
+
 export interface Validatepass {
     password: string;
     confirmpass: string;
-}
-export interface Validatelogin {
-    mail: string;
-    pass: string;
 }
 export interface Value {
     id: string;
