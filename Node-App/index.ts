@@ -13,15 +13,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 const corsOptions = {
-  origin: 'http://localhost:5000',
+  origin: 'http://192.168.10.103:5000',
   methods: 'GET, PUT, POST',
   credentials: true
 };
 app.use(cors(corsOptions))
-app.options('http://localhost:5000', cors(corsOptions));
+app.options('http://192.168.10.103:5000', cors(corsOptions));
 
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://localhost:5000");
+  res.header("Access-Control-Allow-Origin", "http://192.168.10.103:5000");
   res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();

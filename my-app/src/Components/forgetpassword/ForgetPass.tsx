@@ -19,7 +19,7 @@ const ForgetPass: React.FC = () => {
         } else if (!/\S+@\S+\.\S+/.test(email)) {
             setError("Please Enter Valid Mail!!");
         } else {
-            const result = await axios.get(`http://localhost:3036/finduser/${email}`, { withCredentials: true });
+            const result = await axios.get(`http://192.168.10.103:3036/finduser/${email}`, { withCredentials: true });
             if (result.data.id) {
                 navigate("/password", { state: { user_id: result.data.id } });
             } else {

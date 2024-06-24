@@ -58,7 +58,7 @@ const Password: React.FC = () => {
 
         if (newerrors.password.length === 0 && newerrors.confirmpass.length === 0) {
             axios({
-                url: `http://localhost:3036/password/${value}`,
+                url: `http://192.168.10.103:3036/password/${value}`,
                 method: "POST",
                 headers: {
                     'Accept': 'application/json',

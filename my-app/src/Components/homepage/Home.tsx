@@ -16,7 +16,7 @@ const Home: React.FC = () => {
     const [productdata, setProductData] = useState([]);
     useEffect(() => {
         const fetchproductdata = async () => {
-            const result = await axios.get(`http://localhost:3036/getproductdata`, { withCredentials: true });
+            const result = await axios.get(`http://192.168.10.103:3036/getproductdata`, { withCredentials: true });
             setProductData(result.data.result);
         }
         fetchproductdata()

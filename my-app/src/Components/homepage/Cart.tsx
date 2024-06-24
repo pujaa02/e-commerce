@@ -14,6 +14,8 @@ const Cart: React.FC = () => {
     const navigate = useNavigate();
     const cart = useSelector((state: State) => state);
     const finaldata: CartItem[] = cart.cart;
+    console.log(finaldata.length !== 0, "length");
+
     const dispatch = useDispatch();
     if (finaldata.length === 0) {
         return (

@@ -54,7 +54,7 @@ const addtofav = async (req: Request, res: Response) => {
     data.forEach(async element => {
         const checkdata = await con.getrow(`select * from favourite where user_id=${user_id} and product_data_id=${element.product_data_id}`);
         if (!checkdata) {
-            await con.insert(`insert into favourite(user_id,product_data_id,count) values(${user_id},${element.product_data_id},${element.count})`);
+            await con.insert(`insert into favourite(user_id,product_data_id) values(${user_id},${element.product_data_id})`);
         }
     });
     res.json({ msg: "success" })

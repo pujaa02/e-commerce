@@ -18,13 +18,13 @@ const Activate: React.FC = () => {
         }
         const myfun = async () => {
             setError("")
-            const result = await axios.get(`http://localhost:3036/activatecheck/${user_id}`);
+            const result = await axios.get(`http://192.168.10.103:3036/activatecheck/${user_id}`);
             const msg: string = result.data.message
             if (msg === "success") {
                 setDisplay(true);
             } else if (msg === "failed") {
                 setError("Activation Link is Expired!!");
-                 await axios.get(`http://localhost:3036/deleteuser/${user_id}`);
+                 await axios.get(`http://192.168.10.103:3036/deleteuser/${user_id}`);
             } else {
                 setError("User Not Exist, Plz Register Again!!")
             }

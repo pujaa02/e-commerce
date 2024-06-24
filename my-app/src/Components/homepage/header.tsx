@@ -14,7 +14,7 @@ import { useAuth } from "../authcontext/AuthContext";
 import { logout } from "../authcontext/authService";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { emptyCart, removewishlist } from "./CartFuncationality";
+import { emptyCart, emptywishlist } from "./CartFuncationality";
 
 const Header: React.FC = () => {
     const cart: State = useSelector((state: State) => state);
@@ -23,11 +23,11 @@ const Header: React.FC = () => {
     const dispatch = useDispatch();
     const user = currentUser?.user_id;
     const handleLogout = async () => {
-        const cartresult = await axios.post(`http://localhost:3036/addtocart/${currentUser?.user_id}`, cart.cart, { withCredentials: true });
-        const favresult = await axios.post(`http://localhost:3036/addtofav/${currentUser?.user_id}`, cart.cart, { withCredentials: true });
+        const cartresult = await axios.post(`http://192.168.10.103:3036/addtocart/${currentUser?.user_id}`, cart.cart, { withCredentials: true });
+        const favresult = await axios.post(`http://192.168.10.103:3036/addtofav/${currentUser?.user_id}`, cart.wishlist, { withCredentials: true });
         if (cartresult.data.msg === "success" && favresult.data.msg === "success") {
             dispatch(emptyCart(cart.cart));
-            dispatch(removewishlist(cart.wishlist))
+            dispatch(emptywishlist(cart.wishlist))
             logout();
             setCurrentUser(null);
             toast.success("Log out Successfully");

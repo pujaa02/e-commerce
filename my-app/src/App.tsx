@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import "./App.css";
 import Login from "./Components/Login/Login";
 import Register from "./Components/Register/Register";
@@ -10,13 +10,21 @@ import ForgetPass from "./Components/forgetpassword/ForgetPass";
 import Home from "./Components/homepage/Home";
 import Cart from "./Components/homepage/Cart";
 import { AuthProvider, useAuth } from './Components/authcontext/AuthContext';
-import { ProtectedRouteProps } from "./Components/interfacefile";
+import { ProtectedRouteProps, State } from "./Components/interfacefile";
 import Watchlist from "./Components/homepage/Watchlist";
 import ProceedPayment from "./Components/homepage/ProceedPayment";
+import { useSelector } from "react-redux";
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ component: Component }) => {
   const { currentUser } = useAuth();
-  return (currentUser?.user_id) ? <Component /> : <Navigate to="/login" />;
+  const location = useLocation();
+  const cart = useSelector((state: State) => state.cart);
+  if (!currentUser?.user_id) {
+    return <Navigate to="/login" state={{ from: location }} />;
+  } else if (currentUser?.user_id && cart.length === 0) {
+    return <Navigate to="/cart" />;
+  }
+  return <Component />
 };
 
 const CheckUser: React.FC<ProtectedRouteProps> = ({ component: Component }) => {

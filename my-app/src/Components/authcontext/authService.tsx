@@ -5,14 +5,14 @@ export const getUserDetails = async () => {
   if (!user || !user.token) {
     throw new Error('No user logged in');
   }
-  const response = await axios.get(`http://localhost:3036/user`, {
+  const response = await axios.get(`http://192.168.10.103:3036/user`, {
     headers: { Authorization: `Bearer ${user.token}` }
   });
   return response.data;
 };
 
 export const login = async (email: string, password: string) => {
-  const result = await axios.get(`http://localhost:3036/checkuser/${email}/${password}`, { withCredentials: true });
+  const result = await axios.get(`http://192.168.10.103:3036/checkuser/${email}/${password}`, { withCredentials: true });
   if (result.data.token) {
     localStorage.setItem("user", JSON.stringify(result.data));
   }

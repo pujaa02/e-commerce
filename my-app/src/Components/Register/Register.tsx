@@ -73,12 +73,12 @@ const Register: React.FC = () => {
     setValidateerr(newerrors);
 
     if ((Object.values(newerrors)).length === 0) {
-      const result = await axios.get(`http://localhost:3036/finduser/${RegData.email}`, { withCredentials: true });
+      const result = await axios.get(`http://192.168.10.103:3036/finduser/${RegData.email}`, { withCredentials: true });
       const checkuser = result.data.msg;
       if (checkuser === "Success") {
         setError("Email Exists!!")
       } else {
-        await axios.post('http://localhost:3036/register', RegData)
+        await axios.post('http://192.168.10.103:3036/register', RegData)
           .then(async (res) => {
             const result = await res.data;
             if (result.message === "success") {

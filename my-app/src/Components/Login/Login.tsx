@@ -1,7 +1,6 @@
 import React, { useState, ChangeEvent } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import "./login.css";
-// import axios from "axios";
 import { CartItem, LoginData } from "../interfacefile";
 import { Validatelogin } from "../interfacefile";
 import { login } from "../authcontext/authService";
@@ -9,10 +8,11 @@ import { useAuth } from "../authcontext/AuthContext";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import {  addfav, newcart } from "../homepage/CartFuncationality";
+import { addfav, newcart } from "../homepage/CartFuncationality";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [error, setError] = useState("");
   const { setCurrentUser } = useAuth();
   const dispatch = useDispatch();
@@ -54,16 +54,17 @@ const Login: React.FC = () => {
       const result = await login(LoginData.email, LoginData.password);
       if (result.msg === "Success") {
         setCurrentUser(result);
-        const getcartdata = await axios.get(`http://localhost:3036/getcartdata/${result.user_id}`);
+        const getcartdata = await axios.get(`http://192.168.10.103:3036/getcartdata/${result.user_id}`);
         const data: CartItem[] = getcartdata.data.cartdata;
-        const favdata:CartItem[]=getcartdata.data.favdata;
+        const favdata: CartItem[] = getcartdata.data.favdata;
         data.forEach(element => {
           dispatch(newcart(element))
         });
         favdata.forEach(element => {
           dispatch(addfav(element))
         });
-        navigate("/cart");
+        const from = location.state?.from?.pathname || "/";
+        navigate(from);
         toast.success("Login Successfully");
       } else if (result.msg === "wrong Data") {
         setError("wrong Data!!")
