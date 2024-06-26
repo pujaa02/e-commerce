@@ -1,140 +1,128 @@
-'use strict';
+// import fs from "fs";
+// import path from "path";
+import dotenv from "dotenv";
+dotenv.config();
+import {  Sequelize } from "sequelize-typescript";
+import User from "./user";
+import product_data from "./product_data";
+import watchlist from "./watchlist";
+import favourite from "./favourite";
 
-const { DataTypes, QueryInterface } = require('sequelize');
 
-/** @type {import('sequelize-cli').Migration} */
-module.exports = {
-  async up(queryInterface) {
-    await queryInterface.createTable('Users', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: DataTypes.INTEGER,
-      },
-      firstName: {
-        type: DataTypes.STRING,
-      },
-      lastName: {
-        type: DataTypes.STRING,
-      },
-      email: {
-        type: DataTypes.STRING,
-      },
-      createdAt: {
-        allowNull: false,
-        type: DataTypes.DATE,
-      },
-      updatedAt: {
-        allowNull: false,
-        type: DataTypes.DATE,
-      },
-    });
-  },
-  async down(queryInterface) {
-    await queryInterface.dropTable('Users');
-  },
+const initSequalize = () => {
+  // const _basename = path.basename(module.filename);
+  const sequelize = new Sequelize(process.env.DATABASE as string, process.env.DBUSER as string, process.env.DBPASSWORD as string, {
+    host:  process.env.HOST,
+    dialect: "mysql",
+    port: 3306,
+  });
+
+  sequelize
+    .authenticate()
+    .then(() => console.log(`Successfully connected to database!`))
+    .catch((err) => console.log(`Something went wrong ${err.message}`));
+
+  sequelize.addModels([User,product_data,watchlist,favourite]);
+  return sequelize;
 };
-'use strict';
+const db = {
+  connect: initSequalize(),
 
-const { Model } = require('sequelize');
-
-module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
-    static associate(models) {
-      // define association here
-    }
-  }
-  User.init(
-    {
-      firstName: DataTypes.STRING,
-      lastName: DataTypes.STRING,
-      email: DataTypes.STRING,
-    },
-    {
-      sequelize,
-      modelName: 'User',
-    }
-  );
-  return User;
 };
+export default db;
 
 
-{
-  "name": "your-app",
-  "version": "1.0.0",
-  "type": "module",
-  ...
+'use strict';
+import { Table, Column, Model, DataType, PrimaryKey, AutoIncrement, Default } from 'sequelize-typescript';
+import { UserAttributes } from '../interface';
+import { Optional } from 'sequelize';
+
+
+//paranoid => deleted_at coulumn add
+// @Table({tableName:"Users",timestamps:true,paranoid:true})
+interface Data22 extends Optional<UserAttributes,"user_id">{}
+
+@Table({ tableName: "Users" })
+export default class User extends Model<Data22> {
+
+  @PrimaryKey
+  @AutoIncrement
+  @Column(DataType.INTEGER)
+  user_id!: number;
+
+  @Column(DataType.STRING)
+  fname!: string;
+
+  @Column(DataType.STRING)
+  lname!: string;
+
+  @Column(DataType.STRING)
+  email!: string;
+
+  @Column(DataType.INTEGER)
+  phone!: number;
+
+  @Column(DataType.STRING)
+  gender!: string;
+
+  @Column(DataType.DATEONLY)
+  bd!: Date;
+
+  @Default(null)
+  @Column(DataType.STRING)
+  password!: string;
+
+  @Default(null)
+  @Column(DataType.STRING)
+  access_key!: string;
+
+  @Default(false)
+  @Column(DataType.INTEGER)
+  isdeleted!: number;
+
 }
 
+import { Request, Response } from "express";
+import User from "../models/user";
+import db from "../models/index";
+// import { Model, Optional } from "sequelize";
+// import { UserAttributes } from "../interface";
 
-'use strict';
 
-import { DataTypes, QueryInterface } from 'sequelize';
+const models = db.connect;
 
-/** @type {import('sequelize-cli').Migration} */
-export default {
-  async up(queryInterface) {
-    await queryInterface.createTable('Users', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: DataTypes.INTEGER,
-      },
-      firstName: {
-        type: DataTypes.STRING,
-      },
-      lastName: {
-        type: DataTypes.STRING,
-      },
-      email: {
-        type: DataTypes.STRING,
-      },
-      createdAt: {
-        allowNull: false,
-        type: DataTypes.DATE,
-      },
-      updatedAt: {
-        allowNull: false,
-        type: DataTypes.DATE,
-      },
-    });
-  },
-  async down(queryInterface) {
-    await queryInterface.dropTable('Users');
-  },
-};
-'use strict';
-
-import { Model, Sequelize } from 'sequelize';
-
-export default (sequelize, DataTypes) => {
-  class User extends Model {
-    static associate(models) {
-      // define association here
-    }
-  }
-  User.init(
-    {
-      firstName: DataTypes.STRING,
-      lastName: DataTypes.STRING,
-      email: DataTypes.STRING,
-    },
-    {
-      sequelize,
-      modelName: 'User',
-    }
-  );
-  return User;
-};
-{
-  "scripts": {
-    "build": "babel src -d dist",
-    "start": "node dist/index.js",
-    "migrate": "npx sequelize-cli db:migrate"
-  },
-  ...
+interface ModelsBasics {
+    user_id?: number;
+    password?: string;
+    access_key?: string;
+    isdeleted?: number
+    createdAt?: Date;
+    updatedAt?: Date;
+    DeletedAt?: Date | null;
 }
-npm run build
-npm run migrate
+
+interface Data extends ModelsBasics {
+    fname: string;
+    lname: string;
+    email: string;
+    phone: number;
+    gender: string;
+    bd: Date;
+}
+// type UserCreationAttributes = Optional<UserAttributes, 'user_id'>;
+
+const register = async (req: Request, res: Response) => {
+    const data: Data = {
+        fname: "puja", lname: "moravadiya", email: "puja@abc.com", phone: 9878654532, gender: "fename", bd: new Date('2002-11-30')
+    }
+    try {
+        const insertdata = await User.create(data);
+        console.log(insertdata);
+        res.send("hello user");
+    } catch (error) {
+        console.log(error);
+        res.send("unSuccess");
+    }
+}
+
+export default { register }
