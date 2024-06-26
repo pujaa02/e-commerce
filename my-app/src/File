@@ -1,20 +1,22 @@
-// import fs from "fs";
-// import path from "path";
+import fs from "fs";
+import path from "path";
 import dotenv from "dotenv";
 dotenv.config();
-import {  Sequelize } from "sequelize-typescript";
+import { Sequelize } from "sequelize-typescript";
 import User from "./user";
 import product_data from "./product_data";
 import watchlist from "./watchlist";
 import favourite from "./favourite";
 
-
 const initSequalize = () => {
-  // const _basename = path.basename(module.filename);
-  const sequelize = new Sequelize(process.env.DATABASE as string, process.env.DBUSER as string, process.env.DBPASSWORD as string, {
-    host:  process.env.HOST,
+  const sequelize = new Sequelize({
+    database: process.env.DATABASE,
+    username: process.env.DBUSER,
+    password: process.env.DBPASSWORD,
+    host: process.env.HOST,
     dialect: "mysql",
     port: 3306,
+    models: [User, product_data, watchlist, favourite],
   });
 
   sequelize
@@ -22,14 +24,15 @@ const initSequalize = () => {
     .then(() => console.log(`Successfully connected to database!`))
     .catch((err) => console.log(`Something went wrong ${err.message}`));
 
-  sequelize.addModels([User,product_data,watchlist,favourite]);
   return sequelize;
 };
+
 const db = {
   connect: initSequalize(),
-
 };
+
 export default db;
+
 
 
 'use strict';
@@ -37,14 +40,10 @@ import { Table, Column, Model, DataType, PrimaryKey, AutoIncrement, Default } fr
 import { UserAttributes } from '../interface';
 import { Optional } from 'sequelize';
 
-
-//paranoid => deleted_at coulumn add
-// @Table({tableName:"Users",timestamps:true,paranoid:true})
-interface Data22 extends Optional<UserAttributes,"user_id">{}
+interface Data22 extends Optional<UserAttributes, "user_id"> {}
 
 @Table({ tableName: "Users" })
 export default class User extends Model<Data22> {
-
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.INTEGER)
@@ -59,8 +58,8 @@ export default class User extends Model<Data22> {
   @Column(DataType.STRING)
   email!: string;
 
-  @Column(DataType.INTEGER)
-  phone!: number;
+  @Column(DataType.STRING)
+  phone!: string;
 
   @Column(DataType.STRING)
   gender!: string;
@@ -77,52 +76,54 @@ export default class User extends Model<Data22> {
   access_key!: string;
 
   @Default(false)
-  @Column(DataType.INTEGER)
-  isdeleted!: number;
-
+  @Column(DataType.BOOLEAN)
+  isdeleted!: boolean;
 }
+
 
 import { Request, Response } from "express";
 import User from "../models/user";
 import db from "../models/index";
-// import { Model, Optional } from "sequelize";
-// import { UserAttributes } from "../interface";
-
 
 const models = db.connect;
 
 interface ModelsBasics {
-    user_id?: number;
-    password?: string;
-    access_key?: string;
-    isdeleted?: number
-    createdAt?: Date;
-    updatedAt?: Date;
-    DeletedAt?: Date | null;
+  user_id?: number;
+  password?: string;
+  access_key?: string;
+  isdeleted?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+  DeletedAt?: Date | null;
 }
 
 interface Data extends ModelsBasics {
-    fname: string;
-    lname: string;
-    email: string;
-    phone: number;
-    gender: string;
-    bd: Date;
+  fname: string;
+  lname: string;
+  email: string;
+  phone: string;
+  gender: string;
+  bd: Date;
 }
-// type UserCreationAttributes = Optional<UserAttributes, 'user_id'>;
 
 const register = async (req: Request, res: Response) => {
-    const data: Data = {
-        fname: "puja", lname: "moravadiya", email: "puja@abc.com", phone: 9878654532, gender: "fename", bd: new Date('2002-11-30')
-    }
-    try {
-        const insertdata = await User.create(data);
-        console.log(insertdata);
-        res.send("hello user");
-    } catch (error) {
-        console.log(error);
-        res.send("unSuccess");
-    }
-}
+  const data: Data = {
+    fname: "puja",
+    lname: "moravadiya",
+    email: "puja@abc.com",
+    phone: "9878654532",
+    gender: "female",
+    bd: new Date('2002-11-30')
+  };
 
-export default { register }
+  try {
+    const insertdata = await User.create(data);
+    console.log(insertdata);
+    res.send("User successfully registered");
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Registration unsuccessful");
+  }
+};
+
+export default { register };
