@@ -1,5 +1,40 @@
-import fs from "fs";
-import path from "path";
+import { Request, Response } from "express";
+import User from "../models/user";
+
+interface Data  {
+    fname: string;
+    lname: string;
+    email: string;
+    phone: number;
+    gender: string;
+    bd: Date;
+}
+
+
+const register = async (req: Request, res: Response) => {
+    const data:Data = {
+        fname: "puja",
+        lname: "moravadiya",
+        email: "puja@abc.com",
+        phone: 9878654532,
+        gender: "female",
+        bd: new Date('2002-11-30')
+    };
+
+    try {
+        const insertdata = await User.create(data);
+        console.log(insertdata);
+        res.send("User successfully registered");
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("Registration unsuccessful");
+    }
+};
+
+
+export default { register }
+
+
 import dotenv from "dotenv";
 dotenv.config();
 import { Sequelize } from "sequelize-typescript";
@@ -33,17 +68,19 @@ const db = {
 
 export default db;
 
-
-
 'use strict';
 import { Table, Column, Model, DataType, PrimaryKey, AutoIncrement, Default } from 'sequelize-typescript';
 import { UserAttributes } from '../interface';
 import { Optional } from 'sequelize';
 
-interface Data22 extends Optional<UserAttributes, "user_id"> {}
 
-@Table({ tableName: "Users" })
-export default class User extends Model<Data22> {
+//paranoid => deleted_at coulumn add
+// @Table({tableName:"Users",timestamps:true,paranoid:true})
+interface UserCreationAttributes extends Optional<UserAttributes, "user_id"> { }
+
+@Table({ tableName: "Users", timestamps: true })
+export default class User extends Model<UserAttributes, UserCreationAttributes> {
+
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.INTEGER)
@@ -58,8 +95,8 @@ export default class User extends Model<Data22> {
   @Column(DataType.STRING)
   email!: string;
 
-  @Column(DataType.STRING)
-  phone!: string;
+  @Column(DataType.INTEGER)
+  phone!: number;
 
   @Column(DataType.STRING)
   gender!: string;
@@ -67,63 +104,14 @@ export default class User extends Model<Data22> {
   @Column(DataType.DATEONLY)
   bd!: Date;
 
-  @Default(null)
   @Column(DataType.STRING)
   password!: string;
 
-  @Default(null)
   @Column(DataType.STRING)
   access_key!: string;
 
   @Default(false)
-  @Column(DataType.BOOLEAN)
-  isdeleted!: boolean;
+  @Column(DataType.INTEGER)
+  isdeleted!: number;
 }
 
-
-import { Request, Response } from "express";
-import User from "../models/user";
-import db from "../models/index";
-
-const models = db.connect;
-
-interface ModelsBasics {
-  user_id?: number;
-  password?: string;
-  access_key?: string;
-  isdeleted?: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
-  DeletedAt?: Date | null;
-}
-
-interface Data extends ModelsBasics {
-  fname: string;
-  lname: string;
-  email: string;
-  phone: string;
-  gender: string;
-  bd: Date;
-}
-
-const register = async (req: Request, res: Response) => {
-  const data: Data = {
-    fname: "puja",
-    lname: "moravadiya",
-    email: "puja@abc.com",
-    phone: "9878654532",
-    gender: "female",
-    bd: new Date('2002-11-30')
-  };
-
-  try {
-    const insertdata = await User.create(data);
-    console.log(insertdata);
-    res.send("User successfully registered");
-  } catch (error) {
-    console.log(error);
-    res.status(500).send("Registration unsuccessful");
-  }
-};
-
-export default { register };
