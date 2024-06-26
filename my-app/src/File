@@ -1,39 +1,110 @@
 import { Request, Response } from "express";
 import User from "../models/user";
 
-interface Data  {
-    fname: string;
-    lname: string;
-    email: string;
-    phone: number;
-    gender: string;
-    bd: Date;
+interface Data {
+  fname: string;
+  lname: string;
+  email: string;
+  phone: number;
+  gender: string;
+  bd: Date;
 }
 
-
 const register = async (req: Request, res: Response) => {
-    const data:Data = {
-        fname: "puja",
-        lname: "moravadiya",
-        email: "puja@abc.com",
-        phone: 9878654532,
-        gender: "female",
-        bd: new Date('2002-11-30')
-    };
+  const data: Data = {
+    fname: "puja",
+    lname: "moravadiya",
+    email: "puja@abc.com",
+    phone: 9878654532,
+    gender: "female",
+    bd: new Date('2002-11-30')
+  };
 
-    try {
-        const insertdata = await User.create(data);
-        console.log(insertdata);
-        res.send("User successfully registered");
-    } catch (error) {
-        console.log(error);
-        res.status(500).send("Registration unsuccessful");
-    }
+  try {
+    const insertdata: User = await User.create(data);
+    console.log(insertdata);
+    res.send("User successfully registered");
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Registration unsuccessful");
+  }
 };
 
+export default { register };
 
-export default { register }
 
+'use strict';
+import { Table, Column, Model, DataType, PrimaryKey, AutoIncrement } from 'sequelize-typescript';
+import { UserAttributes } from '../interface';
+import { Optional } from 'sequelize';
+
+interface UserCreationAttributes extends Optional<UserAttributes, "user_id"> { }
+
+@Table({ tableName: "Users", timestamps: true })
+export default class User extends Model<UserAttributes, UserCreationAttributes> {
+  @PrimaryKey
+  @AutoIncrement
+  @Column(DataType.INTEGER)
+  user_id!: number;
+
+  @Column(DataType.STRING)
+  fname!: string;
+
+  @Column(DataType.STRING)
+  lname!: string;
+
+  @Column(DataType.STRING)
+  email!: string;
+
+  @Column(DataType.INTEGER)
+  phone!: number;
+
+  @Column(DataType.STRING
+
+
+
+
+'use strict';
+import { Table, Column, Model, DataType, PrimaryKey, AutoIncrement } from 'sequelize-typescript';
+import { UserAttributes } from '../interface';
+import { Optional } from 'sequelize';
+
+interface UserCreationAttributes extends Optional<UserAttributes, "user_id"> { }
+
+@Table({ tableName: "Users", timestamps: true })
+export default class User extends Model<UserAttributes, UserCreationAttributes> {
+  @PrimaryKey
+  @AutoIncrement
+  @Column(DataType.INTEGER)
+  user_id!: number;
+
+  @Column(DataType.STRING)
+  fname!: string;
+
+  @Column(DataType.STRING)
+  lname!: string;
+
+  @Column(DataType.STRING)
+  email!: string;
+
+  @Column(DataType.INTEGER)
+  phone!: number;
+
+  @Column(DataType.STRING)
+  gender!: string;
+
+  @Column(DataType.DATEONLY)
+  bd!: Date;
+
+  @Column({ type: DataType.STRING, allowNull: true })
+  password!: string | null;
+
+  @Column({ type: DataType.STRING, allowNull: true })
+  access_key!: string | null;
+
+  @Column({ type: DataType.INTEGER, allowNull: true, defaultValue: 0 })
+  isdeleted!: number | null;
+}
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -67,51 +138,3 @@ const db = {
 };
 
 export default db;
-
-'use strict';
-import { Table, Column, Model, DataType, PrimaryKey, AutoIncrement, Default } from 'sequelize-typescript';
-import { UserAttributes } from '../interface';
-import { Optional } from 'sequelize';
-
-
-//paranoid => deleted_at coulumn add
-// @Table({tableName:"Users",timestamps:true,paranoid:true})
-interface UserCreationAttributes extends Optional<UserAttributes, "user_id"> { }
-
-@Table({ tableName: "Users", timestamps: true })
-export default class User extends Model<UserAttributes, UserCreationAttributes> {
-
-  @PrimaryKey
-  @AutoIncrement
-  @Column(DataType.INTEGER)
-  user_id!: number;
-
-  @Column(DataType.STRING)
-  fname!: string;
-
-  @Column(DataType.STRING)
-  lname!: string;
-
-  @Column(DataType.STRING)
-  email!: string;
-
-  @Column(DataType.INTEGER)
-  phone!: number;
-
-  @Column(DataType.STRING)
-  gender!: string;
-
-  @Column(DataType.DATEONLY)
-  bd!: Date;
-
-  @Column(DataType.STRING)
-  password!: string;
-
-  @Column(DataType.STRING)
-  access_key!: string;
-
-  @Default(false)
-  @Column(DataType.INTEGER)
-  isdeleted!: number;
-}
-
