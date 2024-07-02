@@ -33,9 +33,10 @@ const Header: React.FC = () => {
             toast.success("Log out Successfully");
         }
     }
+
     return (
         <Grid container sx={{ color: 'text.primary' }}>
-            <div className="home_container">
+            <div className="home_container" >
 
                 <div className="header">
                     <p id="shopping"> <img id="miimg" src={require(`./11.png`)} alt="none" /> </p>

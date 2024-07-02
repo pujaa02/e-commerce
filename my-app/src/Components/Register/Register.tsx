@@ -34,28 +34,25 @@ const Register: React.FC = () => {
     }
 
     const handleRegister = async (data: RegData2) => {
-        console.log(data, "data");
-        console.log(data.email, "data.email");
+        setError("");
         const result = await axios.get(`http://192.168.10.103:3036/finduser/${data.email}`, { withCredentials: true });
         const checkuser = result.data.msg;
-        console.log(checkuser, "checkuser");
-
         if (checkuser === "Success") {
             setError("Email Exists!!")
-            } else {
-                await axios.post('http://192.168.10.103:3036/register', data)
-                    .then(async (res) => {
-                        const result = await res.data;
-                        if (result.message === "success") {
-                            setid(result.user_id);
-                            setactcode(result.actcode);
-                            setDisplay(true);
-                        } else if (result.message === "failed") {
-                            setError("something wrong!!")
-                        }
-                    })
-                    .catch((err) => console.log(err));
-            }
+        } else {
+            await axios.post('http://192.168.10.103:3036/register', data)
+                .then(async (res) => {
+                    const result = await res.data;
+                    if (result.message === "success") {
+                        setid(result.user_id);
+                        setactcode(result.actcode);
+                        setDisplay(true);
+                    } else if (result.message === "failed") {
+                        setError("something wrong!!")
+                    }
+                })
+                .catch((err) => console.log(err));
+        }
     }
     return (
         <div className="register-form-container">

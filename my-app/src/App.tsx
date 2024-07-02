@@ -31,7 +31,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ component: Component })
 
 const CheckUser: React.FC<ProtectedRouteProps> = ({ component: Component }) => {
   const { currentUser } = useAuth();
-  return (currentUser?.user_id) ? <Navigate to="/cart" /> : <Component />;
+  return (currentUser?.user_id) ? <Navigate to="/" /> : <Component />;
 }
 const App: React.FC = () => {
   return (
@@ -39,18 +39,18 @@ const App: React.FC = () => {
       <AuthProvider>
         <Routes>
           <Route path="/login" element={<CheckUser component={Login} />} />
+          <Route path="/register" element={<CheckUser component={Register} />}></Route>
+          <Route path="/password" element={<CheckUser component={Password} />}></Route>
+          <Route path="/forget" element={<ForgetPass />}></Route>
+          <Route path="/activate/:actcode" element={< CheckUser component={Activate} />}></Route>
           <Route path="/cart" element={<Cart />} />
           <Route path="/payment" element={<ProtectedRoute component={ProceedPayment} />}></Route>
           <Route path="/wishlist" element={<Watchlist />}></Route>
-          <Route path="/register" element={<Register />}></Route>
-          <Route path="/activate/:actcode" element={<Activate />}></Route>
-          <Route path="/password" element={<Password />}></Route>
-          <Route path="/forget" element={<ForgetPass />}></Route>
           <Route path="/" element={<Home />}></Route>
           <Route path="*" element={<Wrong />}></Route>
         </Routes>
       </AuthProvider>
-    </div>
+    </div >
   );
 };
 

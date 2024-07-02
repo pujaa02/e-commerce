@@ -4,7 +4,7 @@ import "./wrong.css";
 const Wrong = () => {
     return (
         <div className="middle">
-            <h1>Wrong Url 404 </h1>
+            <img src={require(`./wrong.gif`)} alt="none" />
         </div>
     );
 }
